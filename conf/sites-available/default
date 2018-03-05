@@ -1,0 +1,18 @@
+server {
+	listen 80 default_server;
+	listen [::]:80;
+	
+	index index.html;
+	
+	root /usr/share/nginx/html;
+	
+	include snippets/robots_block;
+
+	location / {
+		try_files $uri $uri/ =404;
+	}
+	
+	error_page 404 /50x.html;
+	
+	include snippets/error_redirect;
+}

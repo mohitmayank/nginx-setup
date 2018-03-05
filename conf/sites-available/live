@@ -1,0 +1,39 @@
+server {
+	listen 443 ssl http2;
+	
+	root /srv/uf/live;
+
+	server_name jainmohit.com;
+
+	ssl_certificate /etc/letsencrypt/live/jainmohit.com/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/jainmohit.com/privkey.pem;
+	
+	include snippets/ssl_params;
+	
+	include gzip;
+
+	include snippets/try_index;
+	
+	include snippets/php_redirect;
+}
+
+server {
+	listen 443 ssl http2;
+	
+	root /srv/uf/live;
+
+	server_name www.jainmohit.com;
+
+	ssl_certificate /etc/letsencrypt/live/jainmohit.com/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/jainmohit.com/privkey.pem;
+	
+	include snippets/ssl_params;
+	
+	return 301 https://jainmohit.com$request_uri;
+}
+
+server {
+	listen 80 default_server;
+	server_name jainmohit.com www.jainmohit.com;
+	return 301 https://jainmohit.com$request_uri;
+}
